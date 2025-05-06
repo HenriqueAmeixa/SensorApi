@@ -1,0 +1,17 @@
+# Ignorar pasta do Visual Studio
+.vs/
+
+# Ignorar arquivos de build
+bin/
+obj/
+
+# Outros comuns
+*.user
+*.suo
+*.sdf
+*.cache
+*.db
+*.log
+*.vspscc
+*.vssscc
+*.swp
