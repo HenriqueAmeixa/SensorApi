@@ -5,6 +5,8 @@
 bin/
 obj/
 
+appsettings.json
+
 # Outros comuns
 *.user
 *.suo
