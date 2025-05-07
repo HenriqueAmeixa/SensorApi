@@ -5,7 +5,6 @@ namespace SensorApi.Middlewares
     public class ApiKeyAuthMiddleware
     {
         private readonly RequestDelegate _next;
-        private const string HEADER_NAME = "Authorization";
 
         public ApiKeyAuthMiddleware(RequestDelegate next)
         {
@@ -32,7 +31,9 @@ namespace SensorApi.Middlewares
 
             var value = authHeader.ToString();
 
-            var device = await authService.GetDeviceByApiKeyAsync(value);
+            var key = value.StartsWith("ApiKey ") ? value.Substring("ApiKey ".Length) : value;
+
+            var device = await authService.GetDeviceByApiKeyAsync(key);
 
             if (device == null)
             {
