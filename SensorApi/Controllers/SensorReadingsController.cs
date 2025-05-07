@@ -26,7 +26,7 @@ namespace SensorApi.Controllers
         [HttpPost("lote")]
         public async Task<IActionResult> CreateLote([FromBody] SensorReadingLoteDto dto)
         {
-            var leituras = dto.Readings.Select(l => new SensorReading
+            var leituras = dto.Leituras.Select(l => new SensorReading
             {
                 DeviceId = dto.DeviceId,
                 AccelX = l.AccelX,
