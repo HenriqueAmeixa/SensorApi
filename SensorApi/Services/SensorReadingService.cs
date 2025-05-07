@@ -57,5 +57,14 @@ namespace SensorApi.Services
                     Timestamp = r.Timestamp
                 }).ToListAsync();
         }
+
+        public async Task CreateManyAsync(IEnumerable<SensorReading> leituras)
+        {
+            if (leituras == null || !leituras.Any())
+                return;
+
+            await _context.SensorReading.AddRangeAsync(leituras);
+            await _context.SaveChangesAsync();
+        }
     }
 }

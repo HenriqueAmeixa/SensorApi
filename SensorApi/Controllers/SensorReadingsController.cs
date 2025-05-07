@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SensorApi.DTOs;
+using SensorApi.Models;
 using SensorApi.Services.Interfaces;
 
 namespace SensorApi.Controllers
@@ -20,6 +21,23 @@ namespace SensorApi.Controllers
         {
             var created = await _readingService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetByDevice), new { deviceId = created.DeviceId }, created);
+        }
+
+        [HttpPost("lote")]
+        public async Task<IActionResult> CreateLote([FromBody] SensorReadingLoteDto dto)
+        {
+            var leituras = dto.Leituras.Select(l => new SensorReading
+            {
+                DeviceId = dto.DeviceId,
+                AccelX = l.AccelX,
+                AccelY = l.AccelY,
+                AccelZ = l.AccelZ,
+                Timestamp = dto.Timestamp.AddMilliseconds(l.Ms),
+                MsDesdeInicioLote = l.Ms
+            });
+
+            await _readingService.CreateManyAsync(leituras);
+            return Ok();
         }
 
         [HttpGet("device/{deviceId}")]

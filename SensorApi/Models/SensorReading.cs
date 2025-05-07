@@ -9,6 +9,7 @@
         public double AccelZ { get; set; }
         public double? Temperature { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public int MsDesdeInicioLote { get; set; } = 0;
         public Device? Device { get; set; }
     }
 }
