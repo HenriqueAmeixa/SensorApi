@@ -14,7 +14,16 @@ namespace SensorApi.Middlewares
 
         public async Task Invoke(HttpContext context, IDeviceAuthService authService)
         {
-            if (!context.Request.Headers.TryGetValue(HEADER_NAME, out var authHeader))
+            var isProtected = context.Request.Path.StartsWithSegments("/api/SensorReadings")
+                              && context.Request.Method == HttpMethods.Post;
+
+            if (!isProtected)
+            {
+                await _next(context);
+                return;
+            }
+
+            if (!context.Request.Headers.TryGetValue("Authorization", out var authHeader))
             {
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsync("Missing API Key");
@@ -22,15 +31,8 @@ namespace SensorApi.Middlewares
             }
 
             var value = authHeader.ToString();
-            if (!value.StartsWith("ApiKey "))
-            {
-                context.Response.StatusCode = 401;
-                await context.Response.WriteAsync("Invalid API Key format");
-                return;
-            }
 
-            var apiKey = value.Substring("ApiKey ".Length);
-            var device = await authService.GetDeviceByApiKeyAsync(apiKey);
+            var device = await authService.GetDeviceByApiKeyAsync(value);
 
             if (device == null)
             {
@@ -40,7 +42,6 @@ namespace SensorApi.Middlewares
             }
 
             context.Items["DeviceId"] = device.DeviceId;
-
             await _next(context);
         }
     }
