@@ -33,7 +33,7 @@ namespace SensorApi.Controllers
                 AccelY = l.AccelY,
                 AccelZ = l.AccelZ,
                 Timestamp = dto.Timestamp.AddMilliseconds(l.Ms),
-                MsDesdeInicioLote = l.Ms
+                MillisecondsSinceBatchStart = l.Ms
             });
 
             await _readingService.CreateManyAsync(leituras);
