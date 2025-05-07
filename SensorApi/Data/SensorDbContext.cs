@@ -9,5 +9,7 @@ namespace SensorApi.Data
 
         public DbSet<Device> Device => Set<Device>();
         public DbSet<SensorReading> SensorReading => Set<SensorReading>();
+        public DbSet<DeviceAuth> DeviceAuths => Set<DeviceAuth>();
+
     }
 }

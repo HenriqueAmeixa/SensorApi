@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SensorApi.Data;
 using SensorApi.Services.Interfaces;
 using SensorApi.Services;
+using SensorApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<ISensorReadingService, SensorReadingService>();
+builder.Services.AddScoped<IDeviceAuthService, DeviceAuthService>();
 
 
 
@@ -21,7 +23,7 @@ builder.Services.AddDbContext<SensorDbContext>(options =>
 
 var app = builder.Build();
 
-
+app.UseMiddleware<ApiKeyAuthMiddleware>();
 app.UseSwagger();
 app.UseSwaggerUI();
 
