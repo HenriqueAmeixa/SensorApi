@@ -1,4 +1,5 @@
-﻿using SensorApi.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SensorApi.Data;
 using SensorApi.Models;
 using SensorApi.Services.Interfaces;
 

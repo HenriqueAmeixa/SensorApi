@@ -1,4 +1,6 @@
-﻿namespace SensorApi.Middlewares
+﻿using SensorApi.Services.Interfaces;
+
+namespace SensorApi.Middlewares
 {
     public class ApiKeyAuthMiddleware
     {
