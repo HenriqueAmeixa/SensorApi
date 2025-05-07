@@ -4,6 +4,6 @@
     {
         public Guid DeviceId { get; set; }
         public DateTime Timestamp { get; set; }
-        public List<SensorReadingLoteAmostraDto> Leituras { get; set; }
+        public List<SensorReadingLoteAmostraDto> Readings{ get; set; }
     }
 }
