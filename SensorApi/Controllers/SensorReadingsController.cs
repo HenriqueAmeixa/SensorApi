@@ -43,12 +43,13 @@ namespace SensorApi.Controllers
         [HttpGet("device/{deviceId}")]
         public async Task<IActionResult> GetByDevice(
             Guid deviceId,
-            [FromQuery] DateTime? after = null,
+            [FromQuery] int? afterId = null,
             [FromQuery] int? limit = 100)
         {
-            var readings = await _readingService.GetByDeviceIdAsync(deviceId, after, limit);
+            var readings = await _readingService.GetByDeviceIdAsync(deviceId, afterId, limit);
             return Ok(readings);
         }
+
 
     }
 }
