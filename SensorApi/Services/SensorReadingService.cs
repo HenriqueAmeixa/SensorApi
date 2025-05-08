@@ -42,10 +42,20 @@ namespace SensorApi.Services
             };
         }
 
-        public async Task<List<SensorReadingDto>> GetByDeviceIdAsync(Guid deviceId)
+        public async Task<List<SensorReadingDto>> GetByDeviceIdAsync(Guid deviceId, DateTime? after = null, int? limit = 100)
         {
-            return await _context.SensorReading
-                .Where(r => r.DeviceId == deviceId)
+            var query = _context.SensorReading
+                .Where(r => r.DeviceId == deviceId);
+
+            if (after.HasValue)
+                query = query.Where(r => r.Timestamp > after.Value);
+
+            query = query.OrderBy(r => r.Timestamp);
+
+            if (limit.HasValue)
+                query = query.Take(limit.Value);
+
+            return await query
                 .Select(r => new SensorReadingDto
                 {
                     Id = r.Id,
@@ -55,8 +65,10 @@ namespace SensorApi.Services
                     AccelZ = r.AccelZ,
                     Temperature = r.Temperature,
                     Timestamp = r.Timestamp
-                }).ToListAsync();
+                })
+                .ToListAsync();
         }
+
 
         public async Task CreateManyAsync(IEnumerable<SensorReading> leituras)
         {
